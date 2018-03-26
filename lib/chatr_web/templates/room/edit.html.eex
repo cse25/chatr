@@ -1,7 +1,7 @@
-<%= form_for @changeset, room_path(@conn, :create), fn f -> %>
+<%= form_for @changeset, room_path(@conn, :update, @room), fn f -> %>
   <div class="form-group">
     <%= text_input f, :title, placeholder: "Room Topic", class: "form-control" %>
     <%= error_tag f, :title %>
   </div>
-  <%= submit "Create Room", class: "btn btn-primary" %>
+  <%= submit "Save Room", class: "btn btn-primary" %>
 <% end %>
