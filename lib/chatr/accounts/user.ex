@@ -1,4 +1,4 @@
-defmodule Dixit.Accounts.User do
+defmodule Chatr.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -9,9 +9,9 @@ defmodule Dixit.Accounts.User do
   end
 
   @doc false
-  def changeset(user, attrs) do
-    user
-    |> cast(attrs, [:name])
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:name])
     |> validate_required([:name])
     |> unique_constraint(:name)
   end

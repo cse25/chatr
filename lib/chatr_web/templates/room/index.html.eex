@@ -1,0 +1,8 @@
+<h5>Room Index</h5>
+<ul class="collection">
+  <%= for room <- @rooms do %>
+    <li class="collection-item">
+      <%= room.title %>
+    </li>
+  <% end %>
+</ul>
