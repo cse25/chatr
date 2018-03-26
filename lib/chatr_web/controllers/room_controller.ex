@@ -37,6 +37,23 @@ defmodule ChatrWeb.RoomController do
 
     render conn, "edit.html", changeset: changeset, room: room
   end
+
+  # receives form
+  def update(conn, %{"room" => room, "id" => room_id}) do
+    previous_room = Chat.get_room!(room_id)
+    changeset = Room.changeset(previous_room, room)
+
+    case Repo.update(changeset) do
+      {:ok, room} ->
+        conn
+        |> redirect(to: room_path(conn, :index))
+        |> put_flash(:info, "Room Title Updated")
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, "Error")
+        render conn, "edit.html", changeset: changeset, room: previous_room
+    end
+  end
 end
 
 #
