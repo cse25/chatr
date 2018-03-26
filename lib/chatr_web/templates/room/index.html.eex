@@ -3,6 +3,10 @@
   <%= for room <- @rooms do %>
     <li class="collection-item">
       <%= room.title %>
+      <div class="right">
+        <%= link "Edit", to: room_path(@conn, :edit, room) %>
+        <%= link "Delete", to: room_path(@conn, :delete, room), method: :delete %>
+      </div>
     </li>
   <% end %>
 </ul>

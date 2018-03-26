@@ -6,11 +6,11 @@ defmodule ChatrWeb.RoomController do
   alias Chatr.Chat.Room
 
   def index(conn, _params) do
-    rooms = Chat.list_rooms
+    rooms = Repo.all(Room)
     render conn, "index.html", rooms: rooms
   end
 
-  def new(conn, params) do
+  def new(conn, _params) do
     changeset = Room.changeset(%Room{}, %{})
 
     render conn, "new.html", changeset: changeset
@@ -20,7 +20,7 @@ defmodule ChatrWeb.RoomController do
     changeset = Room.changeset(%Room{}, room)
 
     case Repo.insert(changeset) do
-      {:ok, room} ->
+      {:ok, _room} ->
         conn
         |> redirect(to: room_path(conn, :index))
         |> put_flash(:info, "Room Created")
@@ -32,7 +32,7 @@ defmodule ChatrWeb.RoomController do
   end
 
   def edit(conn, %{"id" => room_id}) do
-    room = Chat.get_room!(room_id)
+    room = Repo.get!(Room, room_id)
     changeset = Room.changeset(room)
 
     render conn, "edit.html", changeset: changeset, room: room
@@ -44,7 +44,7 @@ defmodule ChatrWeb.RoomController do
     changeset = Room.changeset(previous_room, room)
 
     case Repo.update(changeset) do
-      {:ok, room} ->
+      {:ok, _room} ->
         conn
         |> redirect(to: room_path(conn, :index))
         |> put_flash(:info, "Room Title Updated")
@@ -53,6 +53,16 @@ defmodule ChatrWeb.RoomController do
         |> put_flash(:error, "Error")
         render conn, "edit.html", changeset: changeset, room: previous_room
     end
+  end
+
+  def delete(conn, %{"id" => room_id}) do
+    Repo.get!(Room, room_id)
+    |> Repo.delete!
+
+    conn
+    |> put_flash(:info, "Room Deleted")
+    |> redirect(to: room_path(conn, :index))
+    |> halt()
   end
 end
 
