@@ -13,16 +13,14 @@ defmodule Chatr.Accounts do
 
   def get_user!(id), do: Repo.get!(User, id)
 
-  # def insert_or_update_user(%{"name" => name} = attrs \\ %{}) do
-  #   case Repo.get_by(User, name: name) do
-  #     nil ->
-  #       %User{}
-  #       |> User.changeset(attrs)
-  #       |> Repo.insert()
-  #     user ->
-  #       {:ok, user}
-  #   end
-  # end
+  def insert_or_update_user(changeset) do
+    case Repo.get_by(User, name: changeset.changes.name) do
+      nil ->
+        Repo.insert(changeset)
+      user ->
+        {:ok, user}
+    end
+  end
 
   def update_user(%User{} = user, attrs) do
     user

@@ -18,6 +18,9 @@ defmodule ChatrWeb.Router do
 
     get "/", PageController, :index
     resources "/rooms", RoomController
+    get "/users", UserController, :index
+    get "/users/new", UserController, :new
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.
