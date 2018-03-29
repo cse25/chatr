@@ -5,6 +5,8 @@ defmodule ChatrWeb.RoomController do
   alias Chatr.Chat
   alias Chatr.Chat.Room
 
+  plug ChatrWeb.Plugs.RequireAuth when action in [:new, :create, :edit, :update, :delete]
+
   def index(conn, _params) do
     rooms = Repo.all(Room)
     render conn, "index.html", rooms: rooms
