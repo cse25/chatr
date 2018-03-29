@@ -20,7 +20,8 @@ defmodule ChatrWeb.Router do
     get "/", PageController, :index
     resources "/rooms", RoomController
     get "/users", UserController, :index
-    get "/users/new", UserController, :new
+    get "/signin", UserController, :new
+    get "/signout", UserController, :signout
     resources "/users", UserController
   end
 

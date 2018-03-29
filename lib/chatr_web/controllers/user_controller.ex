@@ -33,4 +33,10 @@ defmodule ChatrWeb.UserController do
         |> redirect(to: user_path(conn, :new))
     end
   end
+
+  def signout(conn, _params) do
+    conn
+    |> configure_session(drop: true)
+    |> redirect(to: room_path(conn, :index))
+  end
 end
