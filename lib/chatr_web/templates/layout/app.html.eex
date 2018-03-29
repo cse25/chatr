@@ -20,7 +20,15 @@
           Chatr
         </a>
         <ul class="right">
-           <li>Sign In</li>
+          <%= if @conn.assigns.user do %>
+            <li>
+              Hi <%= @conn.assigns.user.name %> Sign Out
+            </li>
+          <% else %>
+            <li>
+              <%= link "Sign In", to: user_path(@conn, :new) %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </nav>
