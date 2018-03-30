@@ -4,6 +4,7 @@ defmodule Chatr.Accounts.User do
 
   schema "users" do
     field :name, :string
+    has_many :rooms, Chatr.Chat.Room
 
     timestamps()
   end
