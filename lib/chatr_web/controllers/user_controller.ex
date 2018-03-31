@@ -14,7 +14,7 @@ defmodule ChatrWeb.UserController do
     render conn, "new.html", changeset: changeset
   end
 
-  def create(conn, %{"user" => user} = params) do
+  def create(conn, %{"user" => user}) do
     changeset = User.changeset(%User{}, user)
 
     signin(conn, changeset)

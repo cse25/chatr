@@ -6,6 +6,7 @@ defmodule ChatrWeb.RoomController do
   alias Chatr.Chat.Room
 
   plug ChatrWeb.Plugs.RequireAuth when action in [:new, :create, :edit, :update, :delete]
+  plug :check_room_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
     rooms = Repo.all(Room)
@@ -19,7 +20,12 @@ defmodule ChatrWeb.RoomController do
   end
 
   def create(conn, %{"room" => room} = params) do
-    changeset = Room.changeset(%Room{}, room)
+    changeset = conn.assigns.user
+      |> Ecto.build_assoc(:rooms)
+      |> Room.changeset(room)
+
+    IO.puts "+++++"
+    IO.inspect changeset
 
     case Repo.insert(changeset) do
       {:ok, _room} ->
@@ -64,7 +70,18 @@ defmodule ChatrWeb.RoomController do
     conn
     |> put_flash(:info, "Room Deleted")
     |> redirect(to: room_path(conn, :index))
-    |> halt()
+  end
+
+  def check_room_owner(conn, _params) do
+    %{params: %{"id" => room_id}} = conn
+    if Repo.get!(Room, room_id).user_id == conn.assigns.user.id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You cannot edit that")
+      |> redirect(to: room_path(conn, :index))
+      |> halt()
+    end
   end
 end
 
