@@ -3,7 +3,9 @@ defmodule Chatr.Chat.Message do
   import Ecto.Changeset
 
   schema "messages" do
-    field :author, :string
+    field :content, :string
+    belongs_to :user, Chatr.Accounts.User
+    belongs_to :room, Chatr.Chat.Room
 
     timestamps()
   end
@@ -11,8 +13,7 @@ defmodule Chatr.Chat.Message do
   @doc false
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:author])
-    |> validate_required([:author])
-    |> unique_constraint(:author)
+    |> cast(params, [:content])
+    |> validate_required([:content])
   end
 end

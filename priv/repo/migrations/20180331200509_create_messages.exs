@@ -3,8 +3,9 @@ defmodule Chatr.Repo.Migrations.CreateMessages do
 
   def change do
     create table(:messages) do
-      add :author, :string
-      add :message, :string
+      add :content, :string
+      add :user_id, references(:users)
+      add :room_id, references(:rooms)
 
       timestamps()
     end

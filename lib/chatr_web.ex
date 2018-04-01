@@ -40,6 +40,8 @@ defmodule ChatrWeb do
       import ChatrWeb.Router.Helpers
       import ChatrWeb.ErrorHelpers
       import ChatrWeb.Gettext
+      
+      import ReactPhoenix.ClientSide
     end
   end
 

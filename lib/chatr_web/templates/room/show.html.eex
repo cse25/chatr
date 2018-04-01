@@ -1,0 +1,9 @@
+<h5>
+  <%= @room.title %>
+</h5>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    window.createSocket(<%= @room.id %>)
+  })
+</script>
