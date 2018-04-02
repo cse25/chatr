@@ -1,9 +1,10 @@
 <h5>
   <%= @room.title %>
 </h5>
+<div id="target"></div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    window.createSocket(<%= @room.id %>)
+    window.renderCommentsApp('target', <%= @room.id %>)
   })
 </script>

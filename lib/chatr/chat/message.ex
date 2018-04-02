@@ -2,6 +2,8 @@ defmodule Chatr.Chat.Message do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Poison.Encoder, only: [:content, :id]}
+
   schema "messages" do
     field :content, :string
     belongs_to :user, Chatr.Accounts.User
