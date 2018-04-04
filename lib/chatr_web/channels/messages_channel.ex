@@ -18,8 +18,6 @@ defmodule ChatrWeb.MessagesChannel do
 
   def handle_in(name, %{"content" => content}, socket) do
     room = socket.assigns.room
-    IO.puts "++++"
-    IO.inspect room
 
     changeset = room
       |> Ecto.build_assoc(:messages)
@@ -28,14 +26,16 @@ defmodule ChatrWeb.MessagesChannel do
     case Repo.insert(changeset) do
       {:ok, message} ->
         broadcast!(socket, "messages:#{socket.assigns.room.id}:new",
-          %{messages: render_messages([message])})
+          # %{messages: render_messages([message])})
+          %{message: message}
+        )
         {:reply, :ok, socket}
       {:error, _reason} ->
         {:reply, {:error, %{errors: changeset}}, socket}
     end
   end
 
-  defp render_messages(messages) do
-    Phoenix.View.render_many(messages, ChatrWeb.MessageView, "messages.json")
-  end
+  # defp render_messages(messages) do
+  #   Phoenix.View.render_many(messages, ChatrWeb.MessageView, "messages.json")
+  # end
 end

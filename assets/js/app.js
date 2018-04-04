@@ -42,13 +42,12 @@ class App extends Component {
     console.log('this.props.roomId', this.props.roomId)
     this.channel.join()
       .receive('ok', resp => {
-        console.log('resp', resp)
         this.setState({ messages: resp.messages})
       })
       .receive('error', resp => { console.log('Unable to Join', resp) })
 
     this.channel.on(`messages:${this.props.roomId}:new`, (data) => {
-      const newMessages = data.messages
+      const newMessages = [data.message]
       this.setState({ messages: [...this.state.messages, ...newMessages] })
     })
   }
@@ -60,8 +59,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <MessageBox onMessageCreate={this.onMessageCreate.bind(this)} />
         <MessageList messages={this.state.messages} />
+        <MessageBox onMessageCreate={this.onMessageCreate.bind(this)} />
       </div>
     )
   }

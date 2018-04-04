@@ -17,7 +17,7 @@ class MessageBox extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit.bind(this)}>
-        <textarea
+        <input
           className="materialize-textarea"
           value={this.state.text}
           onChange={e => this.setState({ text: e.target.value })}
