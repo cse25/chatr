@@ -7,20 +7,23 @@ defmodule ChatrWeb.MessagesChannel do
   # called when JS client attempts to join MessagesChannel
   def join("messages:" <> room_id, _params, socket) do
     room_id = String.to_integer(room_id)
-    room = Room
-      |> Repo.get(room_id)
-      |> Repo.preload(:messages)
 
-    IO.inspect room
+    room =
+      Room
+      |> Repo.get(room_id)
+      |> Repo.preload(messages: :user)
+
+    # messages = render_messages(room.messages)
 
     {:ok, %{messages: room.messages}, assign(socket, :room, room)}
   end
 
-  def handle_in(name, %{"content" => content}, socket) do
+  def handle_in(_name, %{"content" => content}, socket) do
     room = socket.assigns.room
+    user_id = socket.assigns.user_id
 
     changeset = room
-      |> Ecto.build_assoc(:messages)
+      |> Ecto.build_assoc(:messages, user_id: user_id)
       |> Message.changeset(%{content: content})
 
     case Repo.insert(changeset) do

@@ -2,9 +2,21 @@ import React, { Component } from 'react'
 
 class MessageList extends Component {
   renderMessages() {
-    console.log(this.props)
     return this.props.messages.map(message =>
-      <li key={message.id} className="collection-item">{message.content}</li>
+      this.renderMessage(message)
+    )
+  }
+
+  renderMessage(message) {
+    let name = 'Anonymous'
+    if (message.user) {
+      name = message.user.name
+    }
+
+    return (
+      <li key={message.id} className="collection-item">
+        {name}: {message.content}
+      </li>
     )
   }
 

@@ -2,6 +2,8 @@ defmodule Chatr.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Poison.Encoder, only: [:name]}
+
   schema "users" do
     field :name, :string
     has_many :rooms, Chatr.Chat.Room

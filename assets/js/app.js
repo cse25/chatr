@@ -39,15 +39,16 @@ class App extends Component {
     socket.connect()
 
     this.channel = socket.channel(`messages:${this.props.roomId}`, {})
-    console.log('this.props.roomId', this.props.roomId)
     this.channel.join()
       .receive('ok', resp => {
         this.setState({ messages: resp.messages})
       })
-      .receive('error', resp => { console.log('Unable to Join', resp) })
+      .receive('error', resp => {
+        console.log('Unable to Join', resp)
+      })
 
     this.channel.on(`messages:${this.props.roomId}:new`, (data) => {
-      const newMessages = [data.message]
+      const newMessages = data.messages
       this.setState({ messages: [...this.state.messages, ...newMessages] })
     })
   }
